@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true, // Habilitando styled-components nativamente
   },
+  images: {
+    domains: ["storage.googleapis.com"],
+  },
 };
 
 export default nextConfig;
