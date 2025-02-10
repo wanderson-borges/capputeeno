@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { Notify } from "@/components/Notify";
-import { TbArrowBackUp } from "react-icons/tb";
 import { Body } from "@/styles/GlobalStyles";
 import { FaRegTrashCan } from "react-icons/fa6";
 import Image from "next/image";
+import { BackToHome } from "@/components/BackToHome";
 
 interface CartItem {
   id: string;
@@ -22,6 +22,34 @@ const PageContainer = styled.div`
   gap: 20px;
   margin-top: 20px;
   padding: 20px 160px;
+
+  @media (max-width: 365px) {
+    padding: 20px 20px;
+  }
+
+  @media (min-width: 365px) and (max-width: 576px) {
+    padding: 20px 20px;
+  }
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    padding: 20px 100px;
+  }
+
+  @media (min-width: 768px) and (max-width: 992px) {
+    padding: 20px 20px;
+  }
+
+  @media (min-width: 992px) and (max-width: 1200px) {
+  }
+
+   @media (min-width: 1200px) and (max-width: 1550px) {
+    padding: 20px 20px;
+  }
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const CartSection = styled.div`
@@ -36,7 +64,7 @@ const CartSectionTitle = styled.div`
   font-style: normal;
   font-weight: 500;
   text-transform: uppercase;
-`;
+  `;
 
 const CartSectionSubtitle = styled.div`
   margin-bottom: 20px;
@@ -59,12 +87,29 @@ const CartSectionSubtitle = styled.div`
 
 const SummarySection = styled.div`
   flex: 1;
+  color: #737380;
   background: #fff;
   padding: 20px;
-  border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media (max-width: 1200px) {
+    max-width: 100%;
+  }
+  
+  & h2{
+    font-weight: 500;
+    color: #41414D;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  & hr{
+    border-color: #ffffff73;
+    margin: 20px 0 10px 0;
+  }
 `;
 
 const CartItemCard = styled.div`
@@ -90,7 +135,7 @@ const CartItemCard = styled.div`
 const CartItemImage = styled.div<{ imageUrl: string }>`
   flex-basis: 5%;
   flex-grow: 1;
-  min-height: 120px;
+  min-height: 200px;
   background-image: url(${(props) => props.imageUrl});
   background-size: cover;
   background-position: center;
@@ -99,8 +144,6 @@ const CartItemImage = styled.div<{ imageUrl: string }>`
 
   @media (max-width: 992px) {
     width: 100%;
-    // height: 200px;
-    border-radius: 8px 8px 0 0;
   }
 
   img {
@@ -150,6 +193,12 @@ const CartItemInfoFooter = styled.div`
   justify-content: space-between;
   align-items: end;
   align-content: end;
+
+  & p{
+    font-weight: 500;
+    font-size: 16px;
+    font-family: Saira;
+  }
 `;
 
 const QuantityInput = styled.div`
@@ -172,7 +221,7 @@ const QuantityButton = styled.button`
   justify-items: center;
   color: #737380;
   font-weight: bold;
-
+  
   &:hover {
     background-color: #ccc;
   }
@@ -206,15 +255,21 @@ const RemoveButton = styled.button`
 `;
 
 const CheckoutButton = styled.button`
+  height: 44px;
   padding: 10px;
-  background-color: #008000;
+  background-color: #51B853;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 30px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: Saira;
+  
   &:hover {
-    background-color: #006600;
+    background-color: #42ad44;
   }
 `;
 
@@ -222,42 +277,38 @@ const SummaryItem = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+
+  & span{
+    & b{
+      color: #51B853;
+    }
+  }
+
+  & strong{
+    font-weight: 600;
+    color: #41414D;
+    font-size: 16px;
+  }
 `;
 
 const LinksContainer = styled.div`
+  font-family: Saira;
   margin-top: auto;
   padding-top: 20px;
-  border-top: 1px solid #ddd;
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
 `;
 
 const SummaryLink = styled.a`
   display: block;
   margin-top: 5px;
-  color: #0066cc;
+  color: #737380;
   cursor: pointer;
+
   &:hover {
     text-decoration: underline;
-  }
-`;
-
-const BackButton = styled.button`
-  border: 1px solid #5d5d6d;
-  color: #5d5d6d;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  margin-top: 20px;
-  font-family: Saira;
-  font-weight: 500;
-  background: transparent;
-
-  &:hover {
-    background-color: rgb(221, 223, 224);
   }
 `;
 
@@ -313,7 +364,7 @@ export default function CartPage() {
   };
 
   const totalPrice = cart.reduce((total, item) => total + item.price_in_cents * item.quantity, 0) / 100;
-  const shippingCost = 20.0;
+  const shippingCost = totalPrice > 900 ? 0 : 40;
   const finalPrice = totalPrice + shippingCost;
 
   const handleCheckout = () => {
@@ -331,9 +382,7 @@ export default function CartPage() {
   return (
     <>
       <Body>
-        <BackButton onClick={() => router.push("/")}>
-          <TbArrowBackUp size={20} />
-        </BackButton>
+        <BackToHome />
         <PageContainer>
           {showMessage && <Notify message="Compra finalizada com sucesso!" type="success" />}
           <CartSection>
@@ -381,7 +430,7 @@ export default function CartPage() {
             </SummaryItem>
             <SummaryItem>
               <span>Entrega</span>
-              <span>R$ {shippingCost.toFixed(2)}</span>
+              <span>{shippingCost === 0 ? <b>Grátis</b> : `R$ ${shippingCost.toFixed(2)}`}</span>
             </SummaryItem>
             <hr />
             <SummaryItem>

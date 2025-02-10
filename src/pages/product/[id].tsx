@@ -3,9 +3,9 @@ import { GET_PRODUCTS } from "@/graphql/queries";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { TbArrowBackUp } from "react-icons/tb";
 import { LuShoppingBag } from "react-icons/lu";
 import { Notify } from "@/components/Notify";
+import { BackToHome } from "@/components/BackToHome";
 
 // Definindo a interface para o item do carrinho
 interface CartItem {
@@ -37,38 +37,62 @@ const ProductDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-`;
 
-const BackButton = styled.button`
-  border: 1px solid #5d5d6d;
-  color: #5d5d6d;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  margin-top: 20px;
-  font-family: Saira;
-  font-weight: 500;
-  background: transparent;
+  @media (max-width: 365px) {
+    padding: 20px 20px;
+  }
 
-  &:hover {
-    background-color: rgb(221, 223, 224);
+  @media (min-width: 365px) and (max-width: 576px) {
+    padding: 20px 30px;
+  }
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    padding: 20px 40px;
+  }
+
+  @media (min-width: 768px) and (max-width: 992px) {
+    padding: 20px 30px;
+  }
+
+  @media (min-width: 992px) and (max-width: 1200px) {
+    padding: 20px 30px;
+  }
+
+   @media (min-width: 1200px) and (max-width: 1550px) {
   }
 `;
 
 const ProductContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 60px;
   justify-content: center;
 
+  @media (max-width: 365px) {
+  gap: 20px;
+  }
+
+  @media (min-width: 365px) and (max-width: 576px) {
+  gap: 20px;
+  }
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    gap: 20px;
+  }
+
+  @media (min-width: 768px) and (max-width: 992px) {
+    gap: 40px;
+  }
+
+  @media (min-width: 992px) and (max-width: 1200px) {
+    gap: 40px;
+  }
+
+   @media (min-width: 1200px) and (max-width: 1550px) {
+  }
+  
   @media (min-width: 768px) {
     flex-direction: row;
-    gap: 60px;
   }
 `;
 
@@ -92,6 +116,7 @@ const ProductInfo = styled.div`
 
   @media (min-width: 768px) {
     width: 50%;
+    max-width: 450px;
   }
 `;
 
@@ -136,7 +161,19 @@ const ProductDescriptionTitle = styled.p`
   font-size: 16px;
   font-weight: 500;
   text-transform: uppercase;
-  margin: 58px 0 -10px 0;
+  margin: 50px 0 -10px 0;
+
+  @media (max-width: 365px) {
+    margin: 15px 0 -10px 0;
+  }
+
+  @media (min-width: 365px) and (max-width: 576px) {
+    margin: 15px 0 -10px 0;
+  }
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    margin: 15px 0 -10px 0;
+  }
 `;
 
 const ProductDescription = styled.p`
@@ -165,9 +202,22 @@ const AddToCartButton = styled.button`
   font-size: 16px;
   font-weight: 500;
   line-height: 150%;
+  text-transform: uppercase;
 
   &:hover {
     background-color: #0f4d7b;
+  }
+
+  @media (max-width: 365px) {
+    margin-top: 40px;
+  }
+
+  @media (min-width: 365px) and (max-width: 576px) {
+    margin-top: 40px;
+  }
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    margin-top: 40px;
   }
 `;
 
@@ -212,14 +262,10 @@ export default function ProductDetail() {
     setTimeout(() => setAddedToCartMessage(null), 3000);
   };
 
-
   return (
     <>
       <ProductDetailContainer>
-        <BackButton onClick={() => router.push("/")}>
-          <TbArrowBackUp size={20} />
-        </BackButton>
-
+        <BackToHome />
         <ProductContent>
           <ProductImage src={product.image_url} alt={product.name} />
           <ProductInfo>
@@ -228,7 +274,7 @@ export default function ProductDetail() {
             </ProductCategory>
             <ProductName>{product.name}</ProductName>
             <ProductPrice>R$ {(product.price_in_cents / 100).toFixed(2)}</ProductPrice>
-            <ShippingCost>*Frete de R$ 20,00 em todo o site.</ShippingCost>
+            <ShippingCost>*Frete de R$40,00 para todo o Brasil. Grátis para compras acima de R$900,00.</ShippingCost>
             <ProductDescriptionTitle>DESCRIÇÃO</ProductDescriptionTitle>
             <ProductDescription>{product.description}</ProductDescription>
             <AddToCartButton onClick={addToCart}>
@@ -237,7 +283,6 @@ export default function ProductDetail() {
             </AddToCartButton>
           </ProductInfo>
         </ProductContent>
-
         {addedToCartMessage && <Notify message={addedToCartMessage} type="success" />}
       </ProductDetailContainer>
     </>
