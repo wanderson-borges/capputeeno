@@ -1,5 +1,3 @@
-// pages/_document.tsx
-
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
@@ -7,7 +5,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          {/* Adicionando o link da fonte do Google Fonts */}
           <link
             href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap"
             rel="stylesheet"

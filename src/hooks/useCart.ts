@@ -1,4 +1,3 @@
-// hooks/useCart.ts
 import { useState, useEffect } from "react";
 
 interface CartItem {

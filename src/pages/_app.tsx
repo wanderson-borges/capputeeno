@@ -3,7 +3,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apollo-client";
 import GlobalStyle, { GlobalContainer } from "@/styles/GlobalStyles";
 import { CartProvider } from "@/contexts/CartContext";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/Header/Header";
 import { useState } from "react";
 
 export default function MyApp({ Component, pageProps }: AppProps) {

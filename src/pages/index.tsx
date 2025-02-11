@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "@/graphql/queries";
 import Head from "next/head";
-import ProductCard from "@/components/ProductCard";
-import PaginationNav from "@/components/PaginationNav";
-import SortingMenu from "@/components/SortingMenu";
-import styled from 'styled-components';
+import ProductCard from "@/components/ProductCard/ProductCard";
+import PaginationNav from "@/components/PaginationNav/PaginationNav";
+import SortingMenu from "@/components/SortingMenu/SortingMenu";
 import { useProducts } from "@/hooks/useProducts";
 import { usePagination } from "@/hooks/usePagination";
+import { Container } from "./styles/index.styles";
 
 interface Product {
   id: string;
@@ -17,37 +17,6 @@ interface Product {
   image_url: string;
   sales: number;
 }
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-
-  gap: 16px;
-  padding: 30px 160px;
-
-  @media (max-width: 365px) {
-    padding: 30px 20px;
-    justify-content: center;
-  }
-
-  @media (min-width: 365px) and (max-width: 576px) {
-    padding: 30px 20px;
-    justify-content: center;
-  }
-
-  @media (min-width: 576px) and (max-width: 768px) {
-    padding: 30px 20px;
-    justify-content: center;
-  }
-
-  @media (min-width: 768px) and (max-width: 992px) {
-    padding: 30px 20px;
-  }
-
-  @media (min-width: 992px) and (max-width: 1200px) {
-    padding: 30px 20px;
-  }
-`;
 
 export default function Home() {
   const { data, loading, error } = useQuery(GET_PRODUCTS);
