@@ -16,14 +16,10 @@ $ npm i
 ### Execute a aplicação localmente
 $ npm run dev
 
-
 # 🧪 Testes
 
 ## Execute testes unitários localmente:
 $ npm test
 
 # Obs:
-Para rodar localmente este projeto, é necessário que já esteja rodando localmente na porta 3333 de localhost o projeto da api fornecida para este desafio.
-
-# 💻 Aplicação
-A aplicação funcional pode ser acessada [aqui](https://sandbox.kaizen.dev.br/@RESOLVE/capputeeno).
+Para rodar localmente este projeto, é necessário que já esteja rodando em http://localhost:3333 de sua máquina a api fornecida para este desafio.
